@@ -1,0 +1,56 @@
+---
+title: "index"
+author: "Ian Lindell, Jason Palmer, Julia Payne, Natalia Montes"
+date: "5/20/2019"
+output: html_document
+---
+
+```{r setup, include = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(ggplot2)
+setwd("~/project-ianlindelI")
+source("scripts/chart_2.R")
+source("scripts/chart_1.R")
+source("scripts/table_analysis.R")
+```
+
+## Introduction
+
+We are interested in the cost of education and how it relates to economic factors. This is a relevant socio-economic issue worthy of investigating given the increasingly high cost of accessing postsecondary education. We are particularly interested in evaluating the connection between tuition rates, student loan debt, minimum wage, and workforce composition.
+
+## Summary
+
+Below we have compiled information about three prominant American universities. Specifically we are looking at the cost of tuition and the hours needed to work in a year for a single individual to pay for that year's tuition:
+
+``` {r echo = FALSE}
+kable(working_table, col.names = c("University", "Tuition Cost '76", 
+                                   "Tuition Cost '14", "Hours'76", 
+                                   "Hours '14"))
+```
+
+Upon further analysis, we calculated that on average, across all three institutions, it would require about `r mean_week_76` hours of work per week in 1976 to afford tuition. This number skyrocketed to **`r mean_week_14`** weekly hours in 2014. A difference of **`r week_difference`** hours!
+
+You might wonder, can't students still afford to pay for college if they worked full time over the summer? Well, in 1976, a student could work `r mean_summer_76` a week in one summer (12 weeks) to afford an education. However, a student in 2014 would require `r mean_summer_14` hours a week in the summer -- obviously an impossible endeavor.
+
+## Chart 1
+
+`r p ` 
+
+The minimum wage is supposed to show the minimum standad of living to protect the well being and health of employees. 
+
+This chart shows the relationship betweeen a _change in years_ and the change in _minimum wage_ throughout those years. We notice that its only in the last 20 years that we notice a large change in the national minimum wage. With this data, we can see how rising college costs may be increasing but the minimum wage as a country is not improving at all. 
+
+## Chart 2
+
+With this chart we are able to see how tuition has changed in each state over a 14 year period. In 14 years the average tuition in most states has doubled, a quick Google search shows us the national minimum wage has only gone up $2.10 in that time frame. Even with most states instituting a higher minimum wage we can see how difficult paying for college has become. `r tuition_chart`
+
+## Chart 3
+This chart was intended to show trends in student loan debt and the differences in debt between various age groups from 2004 to 2014. 
+
+```{r debt_plot, echo = FALSE}
+source("chart_3.R")
+plot(debt_plot)
+```
+
+The graph reveals that student loan debt increased significantly between 2004 and 2014 for all age groups. The largest jump in student loan debt occurred between the 30-39 year old age group and the 40-49 year old age group. While the older age groups predominantly hold less debt, the graph demonstrates that the 30-39 year old age group usurped the under 30 year old age group in 2013. 

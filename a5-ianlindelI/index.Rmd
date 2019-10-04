@@ -1,0 +1,89 @@
+---
+title: "Shootings in the US"
+author: "Ian Lindell"
+date: "5/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+source("analysis.R")
+library(ggplot2)
+library(plotly)
+library(leaflet)
+```
+
+## Shootings in 2018
+
+There were `r how_many` shootings in the US in 2018. Of those shootings 
+we lost `r total_lost` people. The biggest shooting of 2018 killed 
+`r most_killed$num_killed` people and was in `r most_killed$city`, 
+`r most_killed$state`. The shooting with the most injuries was in 
+`r most_injuries$city`, `r most_injuries$state` with a total of 
+`r most_injuries$num_injured` injuries. In Washington there were 
+`r washington` shootings.
+
+## Shootings per state
+
+```{r num_killed, echo=FALSE}
+kable(shooting_data_per_state)
+```
+
+While California has the largest population it is surprising that Florida and Illinois have a similar number of people injured. California has the highest death toll, while Illinois has the most injured from shootings.
+
+## Thousand Oaks California
+
+https://www.cnn.com/2018/11/09/us/california-thousand-oaks-shooting-how-it-unfolded/index.html
+
+A shootings in `r cali$city`, `r cali$state` left `r cali$num_killed` dead and `r cali$num_injured` injured. The shooting took place on `r cali$date`. The popular bar at `r cali$address` was packed with college students that night. Police were on the scene within minutes, but had to wait for back-up after a police officer was fatally shot.
+
+## Map: Shootings Throughout US
+
+```{r}
+leaflet(data = shooting_data_per_city) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  setView(lng = -98.35, lat = 39.5, zoom = 4) %>%
+  addCircles(
+    lat = ~lat,
+    lng = ~long,
+    popup = paste(
+      "City:", shooting_data_per_city$city, "<br>",
+      "Killed:", shooting_data_per_city$num_killed, "<br>",
+      "Injured:", shooting_data_per_city$num_injured
+    ),
+    radius = (200 * (shooting_data_per_city$num_killed +
+      shooting_data_per_city$num_injured)),
+    stroke = FALSE
+  )
+```
+
+Major cities had the most shootings. While Illinois had the third most shootings the city of Chicago had the most shootings of any city. The midwestern and pacific northwest states had very few shootings. 
+
+## Plot: Data by State
+
+This map easily compares the size of the shooting to other shootings. It also makes it easy to find shootings in certain areas and data for that shooting. 
+
+```{r shooting, echo=FALSE}
+plot_ly(
+  data = shooting_data_per_state,
+  x = ~state,
+  y = ~num_injured,
+  type = "bar",
+  name = "injured",
+  width = 1000,
+  height = 500
+) %>%
+  add_trace(y = ~num_killed, name = "killed") %>%
+  layout(
+    barmode = "stack",
+    title = "Shooting Data per State",
+    xaxis = list(title = "Killed", tickangle = 45),
+    yaxis = list(title = "Injured")
+  )
+```
+
+I decided to use a stacked bar chart. I used a stack chart to show the total killed and injured in each state. I also kept the killed and injured data seperate to show that more people are injured than killed.
+
+California, Florida and Illinois had the most people killed and injured in shootings. 
+Far more people were injured from shootings than died from shootings.

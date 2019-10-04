@@ -1,0 +1,38 @@
+---
+title: "Public office"
+author: "Ian Lindell"
+date: "5/17/2019"
+output: html_document
+---
+
+```{r setup, warning=FALSE, message=FALSE, echo=FALSE}
+library(knitr)
+address <- "Seattle, WA"
+state <- substr(address, nchar(address) - 1, nchar(address))
+library(ggplot2)
+library(dplyr)
+source("api-keys.R")
+source("civic-info.R")
+source("propublica.R")
+```
+
+## Your Representatives
+This report contains a list of people who hold public office for the given address, **`r address`** from state to national level. Data for this list was gathered from _[ProPublica API](https://projects.propublica.org/api-docs/congress-api/)_ and _[Google Civic Information API](https://developers.google.com/civic-information/)_.
+
+```{r echo=FALSE}
+kable(table, "html") %>%
+  kable_styling(full_width = F)
+```
+
+## House of Representatives
+
+Here are two charts that show members of the House by gender and political party. 
+```{r echo=FALSE}
+gender_plot
+```
+
+```{r echo=FALSE}
+party_plot
+```
+
+Lets take a closer look at one representative, `r name`. She is `r age` years old, and you can find her on twitter at [`r twitter_link`](https://twitter.com/RepDelBene). Of the last 20 congressional votes she voted with the majority `r agree / 20 * 100`% of the time.
